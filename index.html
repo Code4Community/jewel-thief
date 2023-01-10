@@ -27,6 +27,44 @@
                 </form>
         </nav>
 
+        <br>
+
+        <div id="container">
+            <div class="text-center">
+                <p><b>Goal</b></p>
+                <p>Collect the cheese and avoid the cats.</p>
+                <p><b>Instructions</b></p>
+                <p>Use the arrow keys to control the mouse. Use the code editor below to change how the mouse moves.</p>
+                <p><b>Code editor</b></p>
+                <div class="variable-editor">
+                    <div>speed</div>
+                    <div>=</div>
+                    <input id="velocity-x" type="number">
+                </div>
+                <div class="variable-editor">
+                    <div>jump_height</div>
+                    <div>=</div>
+                    <input id="velocity-y" type="number">
+                </div>
+                <div class="variable-editor">
+                    <div>gravity</div>
+                    <div>=</div>
+                    <select id="setgravity">
+                        <option value="high" selected>normal</option>
+                        <option value="low">low</option>
+                        <option value="flipped">flipped</option>
+                    </select>
+                </div>
+                <div>
+                    <p><b>Controls</b></p>
+                    <button id="respawn" type="button" class="btn btn-primary">Respawn</button>
+                    &nbsp;
+                    <button id="nextLevel" type="button" class="btn btn-success" disabled>Next Level</button>
+                </div>
+            </div>
+            <div id="game" class="text-center"></div>
+        </div>
+
     </body>
 
 </html>
