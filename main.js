@@ -1,5 +1,3 @@
-import create6 from "./level_six";
-
 const CENTER_HORIZONTAL = 400;
 const CENTER_VERTICAL = 300;
 let TILE_WIDTH = 40;
