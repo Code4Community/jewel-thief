@@ -374,31 +374,7 @@ function create4() {
   player.body.onWorldBounds = true;
 
   //  Our player animations, turning, walking left and walking right.
-  this.anims.create({
-    key: "left",
-    frames: this.anims.generateFrameNumbers("dude", { start: 2, end: 2 }),
-    frameRate: 15,
-    repeat: 1,
-  });
-
-  this.anims.create({
-    key: "turn",
-    frames: [{ key: "dude", frame: 0 }],
-    frameRate: 20,
-  });
-
-  this.anims.create({
-    key: "back",
-    frames: [{ key: "dude", frame: 9 }],
-    frameRate: 20,
-  });
-
-  this.anims.create({
-    key: "right",
-    frames: this.anims.generateFrameNumbers("dude", { start: 6, end: 6 }),
-    frameRate: 15,
-    repeat: 1,
-  });
+  createAnims();
 
   //  Input Events
   cursors = this.input.keyboard.createCursorKeys();
@@ -453,6 +429,11 @@ function create4() {
   //this.physics.add.collider(player, guards, hitGuard, null, this);
 
   //Collision event
+}
+
+function create6() {
+  generateBackground();
+  createAnims();
 }
 
 function update() {
