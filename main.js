@@ -17,7 +17,7 @@ var config = {
   },
   scene: {
     preload: preload,
-    create: create1,
+    create: create6,
     update: update,
   },
 };
@@ -90,7 +90,7 @@ function switchLevel(level) {
       game = new Phaser.Game(config);
       break;
     case "6":
-      config.scene.create = create1;
+      config.scene.create = create6;
       game = new Phaser.Game(config);
       break;
   }
@@ -133,7 +133,31 @@ function create1() {
   player.body.onWorldBounds = true;
 
   //  Our player animations, turning, walking left and walking right.
-  createAnims();
+  this.anims.create({
+    key: "left",
+    frames: this.anims.generateFrameNumbers("dude", { start: 2, end: 2 }),
+    frameRate: 15,
+    repeat: 1,
+  });
+
+  this.anims.create({
+    key: "turn",
+    frames: [{ key: "dude", frame: 0 }],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: "back",
+    frames: [{ key: "dude", frame: 9 }],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: "right",
+    frames: this.anims.generateFrameNumbers("dude", { start: 6, end: 6 }),
+    frameRate: 15,
+    repeat: 1,
+  });
 
   //  Input Events
   cursors = this.input.keyboard.createCursorKeys();
@@ -167,114 +191,12 @@ function create1() {
 }
 
 function create2() {
-  /// GENERATE CHECKERBOARD BACKGROUND --------------------------------------------------
-  generateBackground();
-
-  // GENERATE WALLS ---------------------------------------------------------------------
-  // Create the horizontal walls and the vertical walls
-  wallsH = this.physics.add.staticGroup();
-  wallsV = this.physics.add.staticGroup();
-
-  // Horizontal maze walls
-  // Bottom walls
-  const LEVEL_TWO_BOTTOM = 2 * CENTER_VERTICAL - 100;
-  c = 0;
-  for (let i = 180; i < 480; i += 120, c++) {
-    wall = wallsH.create(i, LEVEL_TWO_BOTTOM, "wallH");
-    wall = wallsH.create(i, LEVEL_TWO_BOTTOM - 160, "wallH");
-    //wall.name = "wallH" + c;
-  }
-  wallsH.create(660, LEVEL_TWO_BOTTOM, "wallH");
-  wallsH.create(540, LEVEL_TWO_BOTTOM, "wallH");
-
-  // Middle overflow
-  wallsH.create(500, LEVEL_TWO_BOTTOM - 160, "wallH");
-  wallsH.create(500, LEVEL_TWO_BOTTOM - 240, "wallH");
-
-  // Top walls
-  c = 0;
-  for (let i = 180; i < 480; i += 120, c++) {
-    wall = wallsH.create(i, LEVEL_TWO_BOTTOM - 240, "wallH");
-    wall = wallsH.create(i, LEVEL_TWO_BOTTOM - 400, "wallH");
-    //wall.name = "wallH" + c;
-  }
-  wallsH.create(660, LEVEL_TWO_BOTTOM - 400, "wallH");
-  wallsH.create(540, LEVEL_TWO_BOTTOM - 400, "wallH");
-
-  // Vertical walls
-  // Bottom left
-  wall = wallsH.create(100, LEVEL_TWO_BOTTOM - 40, "wallV");
-  wall = wallsH.create(100, LEVEL_TWO_BOTTOM - 120, "wallV");
-
-  // Top left
-  wall = wallsH.create(100, LEVEL_TWO_BOTTOM - 280, "wallV");
-  wall = wallsH.create(100, LEVEL_TWO_BOTTOM - 360, "wallV");
-
-  // Right side
-  for (let i = LEVEL_TWO_BOTTOM - 80; i > LEVEL_TWO_BOTTOM - 400; i -= 120) {
-    wall = wallsH.create(700, i, "wallV");
-  }
-
-  // Middle wall
-  wall = wallsH.create(540, LEVEL_TWO_BOTTOM - 200, "wallV");
-
-  // The player and its settings
-  player = this.physics.add
-    .sprite(20 + 4 * 40, LEVEL_TWO_BOTTOM - 55, "dude")
-    .setScale(0.2);
-
-  //  Player physics properties. Give the little guy a slight bounce.
-  //player.setBounce(0.2);
-  player.setCollideWorldBounds(true);
-  player.body.onWorldBounds = true;
-
-  //  Our player animations, turning, walking left and walking right.
-  createAnims();
-
-  // Input Events
-  cursors = this.input.keyboard.createCursorKeys();
-  jewel = this.physics.add.sprite(180, LEVEL_TWO_BOTTOM - 322, "jewel");
-  jewel.setScale(0.125);
-  guards = this.physics.add.group();
-
-  // stops player from going through platforms
-  this.physics.add.collider(player, wallsH, () => {
-    player.y = lastPosy;
-    player.x = lastPosx;
-  });
-  this.physics.add.collider(player, wallsV, () => {
-    player.y = lastPosy;
-    player.x = lastPosx;
-  });
-  // this.physics.add.collider(guards, platforms);
-
-  //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-  this.physics.add.overlap(player, jewel, collectJewel, null, this);
-
-  // this.physics.add.collider(player, guards, hitGuard, null, this);
-
-  // Collision event
-}
-
-function create2() {
   generateCheckerboard(this, 8); // Generate background
 
   // GENERATE WALLS ---------------------------------------------------------------------
   // Create the horizontal walls and the vertical walls
   wallsH = this.physics.add.staticGroup();
   wallsV = this.physics.add.staticGroup();
-
-  // Generate the vertical maze walls
-  // wallsV.create(50, 2 * CENTER_VERTICAL - 220, "wallV");
-  // wallsV.create(20 + 2 * 40, 2 * CENTER_VERTICAL - 60, "wallV");
-  // wallsV.create(20 + 2 * 40, 2 * CENTER_VERTICAL - 140, "wallV");
-  // wallsV.create(20 + 2 * 40, 2 * CENTER_VERTICAL - 300, "wallV");
-  // wallsV.create(20 + 2 * 40, 2 * CENTER_VERTICAL - 380, "wallV");
-
-  // wallsV.create(20 + 18 * 40, 2 * CENTER_VERTICAL - 60, "wallV");
-  // wallsV.create(20 + 18 * 40, 2 * CENTER_VERTICAL - 140, "wallV");
-  // wallsV.create(20 + 18 * 40, 2 * CENTER_VERTICAL - 260, "wallV");
-  // wallsV.create(20 + 18 * 40, 2 * CENTER_VERTICAL - 380, "wallV");
 
   // Horizontal maze walls
   // Bottom walls
@@ -419,7 +341,31 @@ function create3() {
   player.body.onWorldBounds = true;
 
   //  Our player animations, turning, walking left and walking right.
-  createAnims();
+  this.anims.create({
+    key: "left",
+    frames: this.anims.generateFrameNumbers("dude", { start: 2, end: 2 }),
+    frameRate: 15,
+    repeat: 1,
+  });
+
+  this.anims.create({
+    key: "turn",
+    frames: [{ key: "dude", frame: 0 }],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: "back",
+    frames: [{ key: "dude", frame: 9 }],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: "right",
+    frames: this.anims.generateFrameNumbers("dude", { start: 6, end: 6 }),
+    frameRate: 15,
+    repeat: 1,
+  });
 
   //  Input Events
   cursors = this.input.keyboard.createCursorKeys();
@@ -495,7 +441,31 @@ function create4() {
   player.body.onWorldBounds = true;
 
   //  Our player animations, turning, walking left and walking right.
-  createAnims();
+  this.anims.create({
+    key: "left",
+    frames: this.anims.generateFrameNumbers("dude", { start: 2, end: 2 }),
+    frameRate: 15,
+    repeat: 1,
+  });
+
+  this.anims.create({
+    key: "turn",
+    frames: [{ key: "dude", frame: 0 }],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: "back",
+    frames: [{ key: "dude", frame: 9 }],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: "right",
+    frames: this.anims.generateFrameNumbers("dude", { start: 6, end: 6 }),
+    frameRate: 15,
+    repeat: 1,
+  });
 
   //  Input Events
   cursors = this.input.keyboard.createCursorKeys();
@@ -555,28 +525,95 @@ function create4() {
 function create6() {
   generateCheckerboard(this, 8); // Generate background
 
-  if (pauseKeyboard == false) {
-    if (this.input.keyboard.checkDown(cursors.left, moveTimer)) {
-      //LEFT KEY
-      if (checkBounds("left") == false) {
-        player.x -= tileSize / 2;
-      }
-    } else if (this.input.keyboard.checkDown(cursors.right, moveTimer)) {
-      if (checkBounds("right") == false) {
-        player.x += tileSize / 2;
-      }
-    }
-    if (this.input.keyboard.checkDown(cursors.up, moveTimer)) {
-      if (checkBounds("up") == false) {
-        player.y -= tileSize / 2;
-      }
-    } else if (this.input.keyboard.checkDown(cursors.down, moveTimer)) {
-      if (checkBounds("down") == false) {
-        player.y += tileSize / 2;
-      }
-    }
-  }
-}
+  // GENERATE WALLS ---------------------------------------------------------------------
+  // Create the horizontal walls and the vertical walls
+  wallsH = this.physics.add.staticGroup();
+  wallsV = this.physics.add.staticGroup();
+
+  // Walls to gem location 1
+  // Top
+  wallsH.create(60, 20, "wallH");
+  wallsH.create(180, 20, "wallH");
+  wallsH.create(300, 20, "wallH");
+  wallsH.create(420, 20, "wallH");
+
+  // Bottom
+  wallsH.create(60, 180, "wallH");
+  wallsH.create(300, 180, "wallH");
+  wallsH.create(420, 180, "wallH");
+
+  // Connecting
+  wallsV.create(20, 100, "wallV");
+  wallsV.create(460, 100, "wallV");
+
+  // Walls to gem location 2
+
+  // Walls to gem location 3
+
+  // Walls to gem location 4
+
+  // The player and its settings
+  player = this.physics.add.sprite(140, 180, "dude").setScale(0.2);
+
+  //  Player physics properties. Give the little guy a slight bounce.
+  //player.setBounce(0.2);
+  player.setCollideWorldBounds(true);
+  player.body.onWorldBounds = true;
+
+  //  Our player animations, turning, walking left and walking right.
+  this.anims.create({
+    key: "left",
+    frames: this.anims.generateFrameNumbers("dude", { start: 2, end: 2 }),
+    frameRate: 15,
+    repeat: 1,
+  });
+
+  this.anims.create({
+    key: "turn",
+    frames: [{ key: "dude", frame: 0 }],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: "back",
+    frames: [{ key: "dude", frame: 9 }],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: "right",
+    frames: this.anims.generateFrameNumbers("dude", { start: 6, end: 6 }),
+    frameRate: 15,
+    repeat: 1,
+  });
+
+  // Jewels
+  var jewelLocations = [[380, 100], [], [], []];
+  console.log(jewelLocations[0][1]);
+  jewel = this.physics.add.sprite(
+    jewelLocations[0][0],
+    jewelLocations[0][1],
+    "jewel"
+  );
+  jewel.setScale(0.125);
+
+  // Input Events
+  cursors = this.input.keyboard.createCursorKeys();
+  guards = this.physics.add.group();
+
+  // stops player from going through platforms
+  this.physics.add.collider(player, wallsH, () => {
+    player.y = lastPosy;
+    player.x = lastPosx;
+  });
+  this.physics.add.collider(player, wallsV, () => {
+    player.y = lastPosy;
+    player.x = lastPosx;
+  });
+
+  //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
+  this.physics.add.overlap(player, jewel, collectJewel, null, this);
+} // end of create6
 
 function update() {
   if (gameOver) {
