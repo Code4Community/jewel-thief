@@ -375,67 +375,207 @@ function create4() {
 
   //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
   this.physics.add.overlap(player, jewel, collectJewel, null, this);
-} // end of create6
+}
+
+function create6() {
+  // Setup
+  generateCheckerboard(this, 8); // Generate background
+  setup(this);
+
+  // GENERATE WALLS ---------------------------------------------------------------------
+  // Create the horizontal walls and the vertical walls
+  wallsH = this.physics.add.staticGroup();
+  wallsV = this.physics.add.staticGroup();
+
+  // Walls to gem location 1
+  wallsH.create(60, 20, "wallH");
+  wallsH.create(180, 20, "wallH");
+  wallsH.create(300, 20, "wallH");
+  wallsH.create(420, 20, "wallH");
+  wallsH.create(60, 180, "wallH");
+  wallsH.create(300, 180, "wallH");
+  wallsH.create(420, 180, "wallH");
+  wallsV.create(20, 100, "wallV");
+  wallsV.create(460, 100, "wallV");
+
+  // Walls to gem location 2
+  // Hallway
+  wallsV.create(100, 260, "wallV");
+  wallsV.create(100, 380, "wallV");
+  wallsV.create(260, 260, "wallV");
+
+  // Gem room
+  wallsV.create(420, 260, "wallV");
+
+  // Walls to gem location 3
+  // Hallway
+  wallsH.create(140, 460, "wallH");
+  wallsH.create(260, 460, "wallH");
+  wallsH.create(380, 460, "wallH");
+  wallsH.create(500, 460, "wallH");
+  wallsH.create(500 + 6 * 40, 460, "wallH");
+
+  // Gem room
+  wallsV.create(540, 540, "wallV");
+  wallsV.create(700, 540, "wallV");
+  wallsH.create(620, 580, "wallH");
+
+  // Walls to gem location 4
+  // Hallway
+  wallsV.create(500 + 7 * 40, 100, "wallV");
+  wallsV.create(500 + 7 * 40, 220, "wallV");
+  wallsV.create(500 + 7 * 40, 340, "wallV");
+  wallsV.create(500 + 7 * 40, 420, "wallV");
+  wallsH.create(500, 20 + 7 * 40, "wallH");
+  wallsH.create(580, 20 + 7 * 40, "wallH");
+  wallsV.create(500 + 3 * 40, 220, "wallV");
+
+  // Gem room
+  wallsH.create(540, 20, "wallH");
+  wallsH.create(660, 20, "wallH");
+  wallsH.create(740, 20, "wallH");
+  wallsH.create(540, 20 + 4 * 40, "wallH");
+  wallsH.create(580, 20 + 4 * 40, "wallH");
+
+  // Wall filling
+  wallsH.create(500, 20 + 5 * 40, "wallH");
+  wallsH.create(500, 20 + 6 * 40, "wallH");
+  wallsV.create(500 + 2 * 40, 220, "wallV");
+  wallsV.create(740, 540, "wallV");
+  wallsV.create(780, 540, "wallV");
+  for (let i = 0; i < 3; i++) {
+    wallsV.create(60, 260 + i * 120, "wallV");
+    wallsV.create(20, 260 + i * 120, "wallV");
+  }
+  for (let i = 1; i < 4; i++) {
+    wallsH.create(140, 460 + i * 40, "wallH");
+    wallsH.create(260, 460 + i * 40, "wallH");
+    wallsH.create(380, 460 + i * 40, "wallH");
+    wallsH.create(500, 460 + i * 40, "wallH");
+  }
+  wallsH.create(60, 460 + 3 * 40, "wallH");
+
+  // The player and its settings
+  player = this.physics.add.sprite(100, 100, "dude").setScale(0.2);
+
+  //  Player physics properties. Give the little guy a slight bounce.
+  //player.setBounce(0.2);
+  player.setCollideWorldBounds(true);
+  player.body.onWorldBounds = true;
+
+  //  Our player animations, turning, walking left and walking right.
+  this.anims.create({
+    key: "left",
+    frames: this.anims.generateFrameNumbers("dude", { start: 2, end: 2 }),
+    frameRate: 15,
+    repeat: 1,
+  });
+
+  this.anims.create({
+    key: "turn",
+    frames: [{ key: "dude", frame: 0 }],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: "back",
+    frames: [{ key: "dude", frame: 9 }],
+    frameRate: 20,
+  });
+
+  this.anims.create({
+    key: "right",
+    frames: this.anims.generateFrameNumbers("dude", { start: 6, end: 6 }),
+    frameRate: 15,
+    repeat: 1,
+  });
+
+  // Jewels
+  var jewelLocations = [
+    [380, 100],
+    [340, 260],
+    [340 + 7 * 40, 260 + 6 * 40],
+    [380 + 4 * 40, 100],
+  ];
+  var locationNum = 3;
+  jewel = this.physics.add.sprite(
+    jewelLocations[locationNum][0],
+    jewelLocations[locationNum][1],
+    "jewel"
+  );
+  jewel.setScale(0.125);
+
+  // Input Events
+  cursors = this.input.keyboard.createCursorKeys();
+  guards = this.physics.add.group();
+
+  if (pauseKeyboard == false) {
+    if (this.input.keyboard.checkDown(cursors.left, moveTimer)) {
+      //LEFT KEY
+      if (checkBounds("left") == false) {
+        player.x -= tileSize / 2;
+      }
+    } else if (this.input.keyboard.checkDown(cursors.right, moveTimer)) {
+      if (checkBounds("right") == false) {
+        player.x += tileSize / 2;
+      }
+    }
+    if (this.input.keyboard.checkDown(cursors.up, moveTimer)) {
+      if (checkBounds("up") == false) {
+        player.y -= tileSize / 2;
+      }
+    } else if (this.input.keyboard.checkDown(cursors.down, moveTimer)) {
+      if (checkBounds("down") == false) {
+        player.y += tileSize / 2;
+      }
+    }
+  }
+
+  // stops player from going through platforms
+  this.physics.add.collider(player, wallsH, () => {
+    player.y = lastPosy;
+    player.x = lastPosx;
+  });
+  this.physics.add.collider(player, wallsV, () => {
+    player.y = lastPosy;
+    player.x = lastPosx;
+  });
+
+  //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
+  this.physics.add.overlap(player, jewel, collectJewel, null, this);
+}
 
 function update() {
   if (gameOver) {
     return;
   }
 
-  function create6() {
-    generateCheckerboard(this, 8); // Generate background
-    setup(this);
-
-    if (pauseKeyboard == false) {
-      if (this.input.keyboard.checkDown(cursors.left, moveTimer)) {
-        //LEFT KEY
-        if (checkBounds("left") == false) {
-          player.x -= tileSize / 2;
-        }
-      } else if (this.input.keyboard.checkDown(cursors.right, moveTimer)) {
-        if (checkBounds("right") == false) {
-          player.x += tileSize / 2;
-        }
-      }
-      if (this.input.keyboard.checkDown(cursors.up, moveTimer)) {
-        if (checkBounds("up") == false) {
-          player.y -= tileSize / 2;
-        }
-      } else if (this.input.keyboard.checkDown(cursors.down, moveTimer)) {
-        if (checkBounds("down") == false) {
-          player.y += tileSize / 2;
-        }
-      }
+  //Player movement
+  var invalidMove = false;
+  if (pauseKeyboard == false) {
+    pauseKeyboard = true;
+    totalMoved = 0;
+    if (this.input.keyboard.checkDown(cursors.left, moveTimer)) {
+      move("left");
+    } else if (this.input.keyboard.checkDown(cursors.right, moveTimer)) {
+      move("right");
+    } else if (this.input.keyboard.checkDown(cursors.up, moveTimer)) {
+      move("up");
+    } else if (this.input.keyboard.checkDown(cursors.down, moveTimer)) {
+      move("down");
+    } else {
+      pauseKeyboard = false;
     }
   }
-}
 
-//Player movement
-
-var invalidMove = false;
-if (pauseKeyboard == false) {
-  pauseKeyboard = true;
-  totalMoved = 0;
-  if (this.input.keyboard.checkDown(cursors.left, moveTimer)) {
-    move("left");
-  } else if (this.input.keyboard.checkDown(cursors.right, moveTimer)) {
-    move("right");
-  } else if (this.input.keyboard.checkDown(cursors.up, moveTimer)) {
-    move("up");
-  } else if (this.input.keyboard.checkDown(cursors.down, moveTimer)) {
-    move("down");
-  } else {
-    pauseKeyboard = false;
-  }
-}
-
-if (pauseKeyboard) {
-  if (totalMoved < tileSize) {
-    moveIncremented(currentDirection, player, totalMoved);
-    totalMoved += moveIncrement;
-  } else {
-    pauseKeyboard = false;
-    player.anims.stop();
+  if (pauseKeyboard) {
+    if (totalMoved < tileSize) {
+      moveIncremented(currentDirection, player, totalMoved);
+      totalMoved += moveIncrement;
+    } else {
+      pauseKeyboard = false;
+      player.anims.stop();
+    }
   }
 }
 
