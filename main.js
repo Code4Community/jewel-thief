@@ -497,7 +497,7 @@ function create6() {
     [340 + 7 * 40, 260 + 6 * 40],
     [380 + 4 * 40, 100],
   ];
-  var locationNum = 3;
+  var locationNum = Math.round(Math.random() * 4);
   jewel = this.physics.add.sprite(
     jewelLocations[locationNum][0],
     jewelLocations[locationNum][1],
