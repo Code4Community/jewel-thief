@@ -1,4 +1,4 @@
-# jewel-theif
+# jewel-thief
 Interactive Jewel stealing game
 
 
