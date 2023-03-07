@@ -55,6 +55,7 @@ function preload() {
   this.load.image("jewel", "assets/jewel.png");
   this.load.image("GameOver", "assets/Gameover.png");
   this.load.image("AvoidGuards", "assets/Avoidtheguards.png");
+  this.load.image("LevelComplete", "assets/LevelComplete.png");
   this.load.spritesheet("dude", "assets/Robber.png", {
     frameWidth: 190,
     frameHeight: 340,
@@ -574,28 +575,17 @@ function collectJewel1(player, jewel){
   //guard.allowGravity = false;
 
   this.physics.add.overlap(player, guard, hitGuard, null, this);
-  
 }
-
 
 function collectJewel(player, jewel) {
   jewel.disableBody(true, true);
 
-  //TODO RUN GAMEOVER CODE
+  //TODO RUN LEVEL COMPLETE CODE
+  LevelComplete = this.physics.add.staticGroup();
+  LevelComplete.create(400, CENTER_VERTICAL, "LevelComplete").setScale(7);
 
-  
-  /*spawn guard array code*/
-  var guard = []
-  guard1 = guards.create(100, 300, "guard").setScale(guardScale);
-  guard.push(guard1);
-  guard2 = guards.create(700, 300, "guard").setScale(guardScale);
-  guard.push(guard2);
-//guard.setBounce(1);
-//guard.setCollideWorldBounds(true);
-  // guard.setVelocity(Phaser.Math.Between(-200, 200), 20);
-//guard.allowGravity = false;
-
-  this.physics.add.overlap(player, guard, hitGuard, null, this);
+  gameOver = true;
+  //this.physics.add.overlap(player, guard, hitGuard, null, this);
 }
 
 function hitGuard(player, guard, avoidGuard) {
@@ -604,7 +594,7 @@ function hitGuard(player, guard, avoidGuard) {
   player.setTint(0xff0000);
 
   gameOver = this.physics.add.staticGroup();
-  gameOver.create(380, CENTER_VERTICAL + 200, "GameOver").setScale(1.75);
+  gameOver.create(CENTER_HORIZONTAL, CENTER_VERTICAL + 200, "GameOver").setScale(1.75);
 
   player.anims.play("turn");
   gameOver = true;
