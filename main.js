@@ -1,7 +1,6 @@
 // Create the C4C editor, inside the given element.
 C4C.Editor.create(document.body);
 
-
 // Define new function and store it in the symbol "alert". This
 // function can now be called from our little language.
 C4C.Interpreter.define("alert", () => {
@@ -25,9 +24,7 @@ C4C.Interpreter.define("moveUp", () => {
  });
 
 
-
-
-const CENTER_HORIZONTAL = 400;
+ const CENTER_HORIZONTAL = 400;
 const CENTER_VERTICAL = 300;
 let TILE_WIDTH = 40;
 let TILE_HEIGHT = 40;
