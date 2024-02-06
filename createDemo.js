@@ -68,6 +68,6 @@ function createDemo() {
   
   // this.hitGuard = hitGuard.bind(this);
 
-  logo = this.add.image(400, 150, 'jewelg');
+  logo = this.add.image(730, 50, 'jewelg');
 
 }

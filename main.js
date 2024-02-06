@@ -76,6 +76,7 @@ function preload() {
   this.load.image("GuardLightV", "assets/guard_with_torchV.png");
   this.load.image("laserH", "assets/laser_horizontal.png");
   this.load.image("laserV", "assets/laser_vertical.png");
+  this.load.image("nextLevel", "assets/void.png");
   this.load.spritesheet("dude", "assets/Robber.png", {
     frameWidth: 190,
     frameHeight: 340,
@@ -424,7 +425,7 @@ function setup(g){
   });
 
   // Create some interface to running the interpreter.
-  logo = g.add.image(400, 150, 'jewelg');
+  logo = g.add.image(730, 50, 'jewelg');
   
   logo.setInteractive();
   logo.on("pointerdown", () => {

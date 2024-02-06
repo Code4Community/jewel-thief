@@ -83,4 +83,6 @@ function create5() {
     this.physics.add.overlap(player, jewel, collectJewel, null, this);
 
     this.physics.add.collider(player, lasers, hitGuard, null, this);
+
+    logo = this.add.image(730, 50, 'jewelg');
     }

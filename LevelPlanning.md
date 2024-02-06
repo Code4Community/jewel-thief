@@ -6,6 +6,7 @@ Levels are planned by an array marking off boxes and open tiles.
     4 = gem
     5 = vertical laser
     6 = horizontal laser
+    7 = next level stairs
 
 1st Level:
 Straight Line. User would move a specific direction a number of times in order to collect the jewel.

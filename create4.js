@@ -53,4 +53,6 @@ function create4() {
   
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, jewel, collectJewel, null, this);
+
+    logo = this.add.image(730, 50, 'jewelg');
   }

@@ -54,6 +54,6 @@ const LEVEL_TWO_BOTTOM = 2 * CENTER_VERTICAL - 100;
   
   this.hitGuard = hitGuard.bind(this);
 
-  // Collision event
+  logo = this.add.image(730, 50, 'jewelg');
 }
 

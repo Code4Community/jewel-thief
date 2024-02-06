@@ -40,6 +40,9 @@ function create1() {
      else if(arr1[i][j]==4){
       jewel = this.physics.add.sprite(j*40+20,i*40+20, "jewel").setScale(0.125);
       }
+      else if(arr1[i][j] ==7){
+        NLVoid = this.physics.add.sprite(j*40+20,i*40+20, "void"); //next level void added
+      }
      }
     }  
 
@@ -53,6 +56,8 @@ function create1() {
   
     this.hitGuard = hitGuard.bind(this);
 
-    // Collision event
+    
+
+    logo = this.add.image(730, 50, 'jewelg');
   }
 
