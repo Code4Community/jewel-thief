@@ -48,6 +48,9 @@ function create1() {
      else if(arr1[i][j]==4){
       jewel = this.physics.add.sprite(j*40+20,i*40+20, "jewel").setScale(0.125);
       }
+      else if(arr1[i][j] ==7){
+        nextLevelStairs = this.physics.add.sprite(j*40+20,i*40+20, "nextLevel"); //next level added
+      }
      }
     }  
 
@@ -58,6 +61,9 @@ function create1() {
      
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, jewel, collectJewel, null, this);
+
+    // I think the issue may be that it wants to run the function on the objects which are overlapping
+    this.physics.add.overlap(player, nextLevelStairs, switchLevel('3'));
   
     this.hitGuard = hitGuard.bind(this);
 
