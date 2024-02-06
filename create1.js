@@ -41,7 +41,7 @@ function create1() {
       jewel = this.physics.add.sprite(j*40+20,i*40+20, "jewel").setScale(0.125);
       }
       else if(arr1[i][j] ==7){
-        NLVoid = this.physics.add.sprite(j*40+20,i*40+20, "void"); //next level void added
+        nextLevelStairs = this.physics.add.sprite(j*40+20,i*40+20, "nextLevel"); //next level added
       }
      }
     }  
@@ -53,10 +53,12 @@ function create1() {
      
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, jewel, collectJewel, null, this);
+
+    this.physics.add.overlap(player, nextLevelStairs, switchLevel("3"));
   
     this.hitGuard = hitGuard.bind(this);
 
-    
+
 
     logo = this.add.image(730, 50, 'jewelg');
   }
