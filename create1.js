@@ -63,9 +63,13 @@ function create1() {
     this.physics.add.overlap(player, jewel, collectJewel, null, this);
 
     // I think the issue may be that it wants to run the function on the objects which are overlapping
-    this.physics.add.overlap(player, nextLevelStairs, switchLevel('3'));
+    this.physics.add.overlap(player, nextLevelStairs, incrementLevel);
   
     this.hitGuard = hitGuard.bind(this);
+
+    function incrementLevel(player, nextLevelStairs) {
+      switchLevel("3");
+    }
 
     // Collision event
   }
